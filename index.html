@@ -3,467 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gangus AI — Route smarter. Pay less.</title>
-<meta name="description" content="Multi-model AI orchestrator. Claude plans, cheap models execute. Save 90% on AI costs.">
+<title>Gangus AI — Multi-Model AI Orchestrator</title>
+<meta name="description" content="Route smarter. Pay less. Claude plans, cheap models execute. Save 90% on AI costs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --border: #1e1e2e;
-    --purple: #7c3aed;
-    --purple-light: #a855f7;
-    --cyan: #06b6d4;
-    --cyan-light: #22d3ee;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.6; overflow-x: hidden; }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 2rem; height: 60px;
-    background: rgba(10,10,15,0.85); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
-  .nav-logo span { color: var(--purple); }
-  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; transition: color .2s; }
-  .nav-links a:hover { color: var(--text); }
-  .nav-cta {
-    background: var(--purple); color: #fff; padding: .4rem 1rem;
-    border-radius: 6px; font-size: 0.875rem; font-weight: 600;
-    text-decoration: none; transition: background .2s;
-  }
-  .nav-cta:hover { background: var(--purple-light); }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center;
-    padding: 6rem 1.5rem 4rem;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,.18) 0%, transparent 70%),
-                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,182,212,.1) 0%, transparent 60%);
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: .5rem;
-    background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.3);
-    color: var(--purple-light); padding: .3rem .9rem; border-radius: 999px;
-    font-size: .75rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--purple-light); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-  h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
-    letter-spacing: -0.04em; line-height: 1.1;
-    background: linear-gradient(135deg, #fff 30%, var(--purple-light) 60%, var(--cyan) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    margin-bottom: 1.25rem;
-  }
-  .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--muted);
-    max-width: 520px; margin: 0 auto 2.5rem;
-  }
-  .hero-sub strong { color: var(--cyan); }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-  .btn-primary {
-    background: var(--purple); color: #fff; padding: .75rem 1.75rem;
-    border-radius: 8px; font-size: 1rem; font-weight: 700;
-    text-decoration: none; transition: all .2s;
-    box-shadow: 0 0 24px rgba(124,58,237,.35);
-  }
-  .btn-primary:hover { background: var(--purple-light); box-shadow: 0 0 32px rgba(124,58,237,.55); transform: translateY(-1px); }
-  .btn-secondary {
-    background: transparent; color: var(--text); padding: .75rem 1.75rem;
-    border-radius: 8px; font-size: 1rem; font-weight: 600;
-    text-decoration: none; border: 1px solid var(--border); transition: all .2s;
-  }
-  .btn-secondary:hover { border-color: var(--purple); color: var(--purple-light); }
-  .hero-stats {
-    display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center;
-    margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border);
-  }
-  .stat { text-align: center; }
-  .stat-num { font-size: 1.75rem; font-weight: 800; color: var(--cyan); letter-spacing: -0.03em; }
-  .stat-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: .2rem; }
-
-  /* SECTIONS */
-  section { padding: 5rem 1.5rem; }
-  .container { max-width: 1080px; margin: 0 auto; }
-  .section-label {
-    font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
-    color: var(--purple-light); margin-bottom: .75rem;
-  }
-  h2 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800;
-    letter-spacing: -0.03em; margin-bottom: .75rem; color: var(--text);
-  }
-  .section-desc { color: var(--muted); max-width: 520px; font-size: 1rem; margin-bottom: 3rem; }
-
-  /* HOW IT WORKS */
-  .how-bg { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; }
-  .step {
-    padding: 2rem; position: relative;
-    border-right: 1px solid var(--border);
-  }
-  .step:last-child { border-right: none; }
-  .step-num {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--cyan));
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: .875rem; color: #fff; margin-bottom: 1rem;
-  }
-  .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
-  .step-desc { color: var(--muted); font-size: .9rem; }
-  .step-arrow {
-    position: absolute; right: -1px; top: 50%; transform: translateY(-50%);
-    width: 0; height: 0;
-    border-top: 10px solid transparent; border-bottom: 10px solid transparent;
-    border-left: 10px solid var(--border); z-index: 1;
-    display: none;
-  }
-
-  /* FEATURES */
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .feature-card {
-    background: var(--surface); padding: 1.75rem;
-    transition: background .2s;
-  }
-  .feature-card:hover { background: rgba(124,58,237,.07); }
-  .feature-icon {
-    width: 40px; height: 40px; border-radius: 8px;
-    background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.25);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; margin-bottom: 1rem;
-  }
-  .feature-title { font-size: 1rem; font-weight: 700; margin-bottom: .4rem; }
-  .feature-desc { color: var(--muted); font-size: .875rem; line-height: 1.5; }
-
-  /* PRICING */
-  .pricing-bg { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .pricing-card {
-    max-width: 480px; margin: 0 auto;
-    background: var(--bg); border: 1px solid var(--border); border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 0 60px rgba(124,58,237,.12);
-  }
-  .pricing-header {
-    padding: 2rem 2rem 1.5rem;
-    background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(6,182,212,.08));
-    border-bottom: 1px solid var(--border);
-  }
-  .pricing-badge {
-    display: inline-block; background: rgba(6,182,212,.15); color: var(--cyan);
-    border: 1px solid rgba(6,182,212,.3); padding: .2rem .7rem;
-    border-radius: 999px; font-size: .7rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: .08em; margin-bottom: 1rem;
-  }
-  .pricing-price { font-size: 3.5rem; font-weight: 900; letter-spacing: -0.04em; color: var(--text); line-height: 1; }
-  .pricing-price span { font-size: 1.25rem; font-weight: 400; color: var(--muted); vertical-align: super; }
-  .pricing-note { color: var(--muted); font-size: .875rem; margin-top: .5rem; }
-  .pricing-body { padding: 1.75rem 2rem 2rem; }
-  .pricing-list { list-style: none; margin-bottom: 1.75rem; }
-  .pricing-list li {
-    padding: .6rem 0; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: .75rem; font-size: .9rem;
-  }
-  .pricing-list li:last-child { border-bottom: none; }
-  .pricing-list li::before { content: '✓'; color: var(--cyan); font-weight: 800; flex-shrink: 0; }
-  .pricing-cta {
-    display: block; text-align: center; width: 100%;
-    background: var(--purple); color: #fff; padding: .875rem;
-    border-radius: 8px; font-size: 1rem; font-weight: 700;
-    text-decoration: none; transition: all .2s;
-    box-shadow: 0 0 24px rgba(124,58,237,.3);
-  }
-  .pricing-cta:hover { background: var(--purple-light); box-shadow: 0 0 36px rgba(124,58,237,.5); }
-
-  /* FAQ */
-  .faq-list { max-width: 680px; }
-  .faq-item { border-bottom: 1px solid var(--border); }
-  .faq-question {
-    width: 100%; background: none; border: none; color: var(--text);
-    text-align: left; padding: 1.25rem 0; font-size: .95rem; font-weight: 600;
-    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-    gap: 1rem; font-family: var(--font);
-    transition: color .2s;
-  }
-  .faq-question:hover { color: var(--purple-light); }
-  .faq-icon { color: var(--purple); font-size: 1.2rem; flex-shrink: 0; transition: transform .3s; }
-  .faq-answer {
-    max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease;
-    color: var(--muted); font-size: .9rem; line-height: 1.7;
-  }
-  .faq-item.open .faq-icon { transform: rotate(45deg); }
-  .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 1.25rem; }
-
-  /* FOOTER */
-  footer {
-    background: var(--surface); border-top: 1px solid var(--border);
-    padding: 2.5rem 1.5rem; text-align: center;
-  }
-  .footer-inner { max-width: 1080px; margin: 0 auto; }
-  .footer-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: .5rem; }
-  .footer-logo span { color: var(--purple); }
-  .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 1rem 0; }
-  .footer-links a { color: var(--muted); text-decoration: none; font-size: .875rem; transition: color .2s; }
-  .footer-links a:hover { color: var(--text); }
-  .footer-copy { color: var(--muted); font-size: .8rem; }
-
-  /* GLOW LINE */
-  .glow-divider {
-    height: 1px; width: 100%;
-    background: linear-gradient(90deg, transparent, var(--purple), var(--cyan), transparent);
-    opacity: .4;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    nav { padding: 0 1rem; }
-    .nav-links { display: none; }
-    .steps { grid-template-columns: 1fr; }
-    .step { border-right: none; border-bottom: 1px solid var(--border); }
-    .step:last-child { border-bottom: none; }
-    .features-grid { grid-template-columns: 1fr; }
-    .hero-stats { gap: 1.5rem; }
-  }
-  @media (min-width: 769px) {
-    .step-arrow { display: block; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--text:#e2e8f0;--muted:#94a3b8;--border:#1e1e2e}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.2rem;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+nav ul{display:flex;gap:28px;list-style:none}
+nav a{color:var(--muted);font-size:.875rem;font-weight:500;transition:color .2s}
+nav a:hover{color:var(--text)}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:120px 24px 80px}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(124,58,237,.12),transparent 70%),radial-gradient(ellipse 40% 40% at 60% 60%,rgba(6,182,212,.08),transparent 60%);pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:700px}
+.badge{display:inline-block;font-size:.75rem;font-weight:600;color:var(--cyan);border:1px solid rgba(6,182,212,.3);border-radius:100px;padding:6px 16px;margin-bottom:24px;letter-spacing:.05em;text-transform:uppercase}
+h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,#fff 40%,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.2rem;color:var(--muted);max-width:520px;margin:0 auto 40px}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-weight:600;font-size:.95rem;transition:all .2s;border:none;cursor:pointer}
+.btn-primary{background:var(--purple);color:#fff;box-shadow:0 0 30px rgba(124,58,237,.3)}
+.btn-primary:hover{background:#6d28d9;transform:translateY(-1px);box-shadow:0 0 40px rgba(124,58,237,.45)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--muted);background:var(--bg2)}
+section{padding:100px 0}
+.section-label{font-size:.75rem;font-weight:600;color:var(--cyan);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;margin-bottom:16px}
+.section-sub{color:var(--muted);max-width:560px;margin-bottom:48px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px}
+.step{text-align:center;padding:40px 24px;border-radius:16px;border:1px solid var(--border);background:var(--bg2);position:relative;transition:border-color .3s}
+.step:hover{border-color:var(--purple)}
+.step-num{width:48px;height:48px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin-bottom:20px;background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff}
+.step h3{font-size:1.15rem;margin-bottom:8px}
+.step p{color:var(--muted);font-size:.9rem}
+.step-arrow{display:none;position:absolute;right:-24px;top:50%;color:var(--purple);font-size:1.5rem}
+@media(min-width:768px){.step-arrow{display:block}}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.feature{padding:32px;border-radius:16px;border:1px solid var(--border);background:var(--bg2);transition:all .3s}
+.feature:hover{border-color:var(--purple);transform:translateY(-2px)}
+.feature-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.4rem;background:rgba(124,58,237,.15)}
+.feature h3{font-size:1.05rem;margin-bottom:8px}
+.feature p{color:var(--muted);font-size:.875rem;line-height:1.7}
+.pricing-box{max-width:480px;margin:0 auto;border-radius:20px;border:2px solid var(--purple);background:var(--bg2);overflow:hidden;box-shadow:0 0 60px rgba(124,58,237,.15)}
+.pricing-header{background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(6,182,212,.1));padding:40px 36px 32px;text-align:center}
+.price{font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.price-sub{color:var(--muted);font-size:.9rem;margin-top:4px}
+.pricing-body{padding:32px 36px 40px}
+.pricing-body ul{list-style:none;margin-bottom:32px}
+.pricing-body li{padding:10px 0;border-bottom:1px solid var(--border);color:var(--text);font-size:.95rem;display:flex;align-items:center;gap:10px}
+.pricing-body li::before{content:'✓';color:var(--cyan);font-weight:700}
+.pricing-body .btn{width:100%;justify-content:center;font-size:1.05rem;padding:16px}
+.faq-list{max-width:680px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border);padding:24px 0}
+.faq-q{font-weight:600;font-size:1.05rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q::after{content:'+';font-size:1.4rem;color:var(--purple);transition:transform .3s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s;color:var(--muted);font-size:.9rem;line-height:1.8}
+.faq-item.open .faq-a{max-height:200px;padding-top:12px}
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center}
+footer p{color:var(--muted);font-size:.85rem}
+footer .links{margin-top:12px;display:flex;justify-content:center;gap:24px}
+footer a{color:var(--muted);font-size:.85rem;transition:color .2s}
+footer a:hover{color:var(--cyan)}
+.glow{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;opacity:.35}
+.glow-purple{width:400px;height:400px;background:var(--purple);top:-100px;right:-100px}
+.glow-cyan{width:300px;height:300px;background:var(--cyan);bottom:-80px;left:-80px}
+@media(max-width:640px){nav ul{display:none}.hero{padding-top:100px}.features-grid{grid-template-columns:1fr}.pricing-header,.pricing-body{padding-left:24px;padding-right:24px}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">Gangus<span>AI</span></a>
-  <div class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#faq">FAQ</a>
-    <a href="#pricing" class="nav-cta">Buy $49 →</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-badge">Multi-model AI Orchestrator</div>
-  <h1>Route smarter.<br>Pay less.</h1>
-  <p class="hero-sub">Claude plans, cheap models execute. Save <strong>90%</strong> on AI costs.</p>
-  <div class="hero-actions">
-    <a href="#pricing" class="btn-primary">Buy for $49 →</a>
-    <a href="https://github.com/wojciechkowalczyk11to-tech/gangus-ai-landing" target="_blank" rel="noopener" class="btn-secondary">View on GitHub</a>
-  </div>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-num">90%</div><div class="stat-label">Cost reduction</div></div>
-    <div class="stat"><div class="stat-num">44</div><div class="stat-label">MCP tools</div></div>
-    <div class="stat"><div class="stat-num">$49</div><div class="stat-label">One-time price</div></div>
-    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">No subscriptions</div></div>
-  </div>
-</section>
-
-<div class="glow-divider"></div>
-
-<!-- HOW IT WORKS -->
-<section class="how-bg" id="how">
-  <div class="container">
-    <div class="section-label">How it works</div>
-    <h2>Three steps to smarter AI</h2>
-    <p class="section-desc">Gangus AI intelligently routes your prompts to the right model at the right cost — automatically.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-title">Prompt</div>
-        <div class="step-desc">Send your task to Gangus AI. Claude 3 Opus analyzes intent, complexity, and required capabilities.</div>
-        <div class="step-arrow"></div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-title">Route</div>
-        <div class="step-desc">The orchestrator selects the optimal model — balancing quality, speed, and cost per token.</div>
-        <div class="step-arrow"></div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-title">Execute</div>
-        <div class="step-desc">Cheap models handle execution. The evaluator layer validates output quality before delivery.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="glow-divider"></div>
-
-<!-- FEATURES -->
-<section id="features">
-  <div class="container">
-    <div class="section-label">Features</div>
-    <h2>Everything you need</h2>
-    <p class="section-desc">A complete AI orchestration stack — from routing logic to mobile deployment.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🔀</div>
-        <div class="feature-title">Multi-LLM Routing</div>
-        <div class="feature-desc">Dynamically routes tasks across GPT-4, Claude, Gemini, Mistral, and open-source models based on task type and budget.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💰</div>
-        <div class="feature-title">Cost Optimizer</div>
-        <div class="feature-desc">Real-time token cost tracking with smart fallbacks. Automatically selects the cheapest model that meets your quality threshold.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <div class="feature-title">Evaluator Layer</div>
-        <div class="feature-desc">Built-in output validation pipeline. Scores responses for accuracy, completeness, and safety before returning results.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📱</div>
-        <div class="feature-title">Termux Mobile-First</div>
-        <div class="feature-desc">Runs natively on Android via Termux. Full orchestrator power in your pocket — no server required.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛠️</div>
-        <div class="feature-title">44 MCP Tools</div>
-        <div class="feature-desc">Integrated Model Context Protocol toolset: web search, code execution, file ops, APIs, and more — all orchestrated.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛡️</div>
-        <div class="feature-title">Token Guard Fallback</div>
-        <div class="feature-desc">Automatic rate-limit detection and graceful fallback chains. Never hit a wall mid-task again.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="glow-divider"></div>
-
-<!-- PRICING -->
-<section class="pricing-bg" id="pricing">
-  <div class="container" style="text-align:center">
-    <div class="section-label">Pricing</div>
-    <h2>Simple, one-time pricing</h2>
-    <p class="section-desc" style="margin:0 auto 2.5rem">No subscriptions. No seats. No surprises. Pay once, own it forever.</p>
-    <div class="pricing-card">
-      <div class="pricing-header">
-        <div class="pricing-badge">One-time purchase</div>
-        <div class="pricing-price"><span>$</span>49</div>
-        <div class="pricing-note">Pay once — yours forever. Bring your own API keys.</div>
-      </div>
-      <div class="pricing-body">
-        <ul class="pricing-list">
-          <li>Python source code ZIP — full, unobfuscated</li>
-          <li>Docker setup with docker-compose</li>
-          <li>Complete documentation &amp; setup guide</li>
-          <li>Cloudflare Tunnel config for public access</li>
-        </ul>
-        <a href="mailto:contact@nexus-oc.pl?subject=Gangus AI Purchase" class="pricing-cta">Buy for $49 →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="glow-divider"></div>
-
-<!-- FAQ -->
-<section id="faq">
-  <div class="container">
-    <div class="section-label">FAQ</div>
-    <h2>Common questions</h2>
-    <p class="section-desc">Everything you need to know before buying.</p>
-    <div class="faq-list">
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          Do I need my own API keys?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          Yes — Gangus AI is a BYOK (Bring Your Own Keys) system. You'll need API keys from the providers you want to use (OpenAI, Anthropic, Google, etc.). This keeps your data private and your costs transparent. There are no hidden markups.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          How difficult is the setup?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          Setup takes about 15–30 minutes. You get a step-by-step guide, Docker Compose file, and Cloudflare Tunnel config. If you can run <code style="background:var(--border);padding:.1rem .4rem;border-radius:4px;font-size:.85em">docker-compose up</code>, you're good. Termux setup on Android is also fully documented.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          Which AI models are supported?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          Gangus AI supports OpenAI (GPT-4, GPT-3.5), Anthropic (Claude 3 Opus, Sonnet, Haiku), Google (Gemini Pro, Flash), Mistral, and any OpenAI-compatible endpoint. The routing engine is model-agnostic — add new providers via config.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          What is your refund policy?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          We offer a 7-day no-questions-asked refund if Gangus AI doesn't work as described. Since you receive source code, we ask that you delete your copy upon refund. Contact us at contact@nexus-oc.pl.
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<div class="glow-divider"></div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">Gangus<span>AI</span></div>
-    <div class="footer-links">
-      <a href="https://nexus-oc.pl" target="_blank" rel="noopener">nexus-oc.pl</a>
-      <a href="https://github.com/wojciechkowalczyk11to-tech/gangus-ai-landing" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:contact@nexus-oc.pl">Contact</a>
-    </div>
-    <div class="footer-copy">Built in Łódź 🇵🇱 · &copy; 2025 Gangus AI · All rights reserved</div>
-  </div>
-</footer>
-
-<script>
-  // FAQ accordion
-  document.querySelectorAll('.faq-question').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-      btn.setAttribute('aria-expanded', !isOpen);
-    });
-  });
-
-  // Smooth nav highlight
-  const sections = document.querySelectorAll('section[id], .how-bg[id], .pricing-bg[id]');
-  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        navLinks.forEach(a => {
-          a.style.color = a.getAttribute('href') === '#' + e.target.id ? 'var(--text)' : '';
-        });
-      }
-    });
-  }, { threshold: 0.4 });
-  sections.forEach(s => observer.observe(s));
-</script>
+<nav><div class="container"><div class="logo">⚡ Gangus AI</div><ul><li><a href="#how">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul></div></nav>
+<section class="hero"><div class="hero-content"><span class="badge">Multi-Model AI Orchestrator</span><h1>Route smarter. Pay less.</h1><p>Claude plans, cheap models execute. Save 90% on AI costs with intelligent LLM routing.</p><div class="hero-btns"><a href="#pricing" class="btn btn-primary">Buy for $49 →</a><a href="https://github.com/wojciechkowalczyk11to-tech/gangus-ai-landing" target="_blank" class="btn btn-ghost"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> View on GitHub</a></div></div></section>
+<section id="how"><div class="container"><div class="section-label">How it works</div><div class="section-title">Three steps to 10× cheaper AI</div><p class="section-sub">Gangus AI intercepts every prompt, classifies complexity, and routes to the cheapest capable model.</p><div class="steps"><div class="step"><div class="step-num">1</div><span class="step-arrow">→</span><h3>Prompt</h3><p>Send any request — code, research, analysis, JSON, creative writing — through a single endpoint.</p></div><div class="step"><div class="step-num">2</div><span class="step-arrow">→</span><h3>Route</h3><p>Claude Sonnet classifies the task and picks the optimal model: DeepSeek, Grok, GPT-4.1-mini, or itself.</p></div><div class="step"><div class="step-num">3</div><h3>Execute</h3><p>The cheapest capable model handles execution. You get the result — and keep 90% of the cost savings.</p></div></div></div></section>
+<section id="features" style="position:relative;overflow:hidden"><div class="glow glow-purple"></div><div class="glow glow-cyan"></div><div class="container" style="position:relative;z-index:1"><div class="section-label">Features</div><div class="section-title">Everything you need to orchestrate LLMs</div><p class="section-sub">Built for developers who want maximum AI power at minimum cost.</p><div class="features-grid"><div class="feature"><div class="feature-icon">🔀</div><h3>Multi-LLM Routing</h3><p>Automatic dispatch to DeepSeek, Grok, GPT-4.1-mini, Devstral, or Claude based on task type and complexity.</p></div><div class="feature"><div class="feature-icon">💰</div><h3>Cost Optimizer</h3><p>Real-time cost tracking per model. Automatic fallback chains when budget thresholds are hit. $0.14/1M token floor.</p></div><div class="feature"><div class="feature-icon">🔍</div><h3>Evaluator Layer</h3><p>Built-in quality judge verifies output correctness before returning. Retry with stronger model on failure.</p></div><div class="feature"><div class="feature-icon">📱</div><h3>Termux Mobile-First</h3><p>Run your AI orchestrator from your phone via Termux. Full Python stack, SSH tunnels, mobile DevOps.</p></div><div class="feature"><div class="feature-icon">🔧</div><h3>44 MCP Tools</h3><p>Shell exec, GitHub, GCP, Cloudflare, Vercel, xAI vector search — all connected via Model Context Protocol.</p></div><div class="feature"><div class="feature-icon">🛡️</div><h3>Token Guard Fallback</h3><p>When your primary model quota runs dry, Gangus auto-cascades down the cheapest fallback chain. Zero downtime.</p></div></div></div></section>
+<section id="pricing"><div class="container"><div class="section-label" style="text-align:center">Pricing</div><div class="section-title" style="text-align:center">One-time. No subscription.</div><p class="section-sub" style="text-align:center;margin-left:auto;margin-right:auto">Pay once, own forever. Bring your own API keys.</p><div class="pricing-box"><div class="pricing-header"><div class="price">$49</div><div class="price-sub">One-time payment · Lifetime access</div></div><div class="pricing-body"><ul><li>Complete Python source code (ZIP)</li><li>Docker Compose setup</li><li>Full documentation &amp; guides</li><li>Cloudflare Tunnel config</li><li>925-tool knowledge base</li><li>Free updates via GitHub</li></ul><a href="#" class="btn btn-primary">Buy for $49 →</a></div></div></div></section>
+<section id="faq"><div class="container"><div class="section-label" style="text-align:center">FAQ</div><div class="section-title" style="text-align:center">Common questions</div><div class="faq-list"><div class="faq-item"><div class="faq-q">Do I need my own API keys?</div><div class="faq-a">Yes. Gangus AI routes to external models (DeepSeek, xAI/Grok, OpenAI, Mistral) using your own API keys. This means you pay actual provider rates — no markup. Most users spend under $5/month.</div></div><div class="faq-item"><div class="faq-q">How hard is the setup?</div><div class="faq-a">About 10 minutes. Unzip, add your API keys to .env, run docker-compose up. Works on any Linux machine, VPS, or even Termux on Android. Full guide included.</div></div><div class="faq-item"><div class="faq-q">Which models are supported?</div><div class="faq-a">DeepSeek Chat ($0.14/1M), Grok 4.1-fast ($0.30/1M), GPT-4.1-mini ($0.40/1M), Devstral-2 (free), Claude Sonnet (orchestrator), and more. The routing matrix is fully configurable.</div></div><div class="faq-item"><div class="faq-q">What's the refund policy?</div><div class="faq-a">Full refund within 7 days if Gangus AI doesn't work for your use case. No questions asked. Email nexus@nexus-oc.pl.</div></div></div></div></section>
+<footer><div class="container"><p>Built in Łódź 🇵🇱 · © 2026 Gangus AI</p><div class="links"><a href="https://nexus-oc.pl" target="_blank">nexus-oc.pl</a><a href="https://github.com/wojciechkowalczyk11to-tech" target="_blank">GitHub</a><a href="mailto:nexus@nexus-oc.pl">Contact</a></div></div></footer>
+<script>document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{const item=q.parentElement;document.querySelectorAll('.faq-item').forEach(i=>{if(i!==item)i.classList.remove('open')});item.classList.toggle('open');});});</script>
 </body>
 </html>
